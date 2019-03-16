@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/JoseCrz/weather#readme",
   "dependencies": {
+    "chalk": "^2.4.2",
     "request": "^2.88.0"
   }
 }
