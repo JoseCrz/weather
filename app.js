@@ -1,23 +1,21 @@
-const request = require('request')
 const chalk = require('chalk')
 
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
 
-geocode('Xalapa', (error, data) => {
+geocode('Xalapa', (error, geocodeData) => {
     if (error) {
-        console.log(chalk.bgRed(error))
-
-    } else {
-        console.log(chalk.bgGreen(`Data: ${data.location}. ${data.latitude}, ${data.longitude}`))
+        return console.log(chalk.bgRed(error))
     }
-})
 
-forecast(19.54, -96.9275, 'si', (error, data) => {
-    if (error) {
-        console.log(chalk.bgRed(error))
-    } else {
-        console.log(chalk.bgGreen(`${data.summary}, current temperature: ${data.temperature} ºC`))
-    }
+    forecast(geocodeData.latitude, geocodeData.longitude, 'si', (error, forecastData) => {
+        if (error) {
+            return console.log(chalk.bgRed(error))
+            
+        } else {
+            console.log(chalk.bold(geocodeData.location))
+            console.log(chalk.gray(`${forecastData.summary}, current temperature ${forecastData.temperature}`))
+        }
+    })
 })

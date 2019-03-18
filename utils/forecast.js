@@ -6,8 +6,10 @@ const forecast = (latitude, longitude, units, callback) => {
     request({url: url, json: true}, (error, response) => {
         if (error) {
             callback('Could not connect with the server!', undefined)
+
         } else if (response.body.error) {
             callback(response.body.error, undefined)
+            
         } else {
             const currentWeather = response.body.currently
 
