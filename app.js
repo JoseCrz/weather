@@ -3,23 +3,27 @@ const chalk = require('chalk')
 
 const geocode = require('./utils/geocode')
 
-// const url = 'https://api.darksky.net/forecast/b570cea920d6af533ac24dbe957983e3/37.8267,-122.4233?units=si'
 
-// request({url: url, json: true}, (error, response) => {
-//     if (error) {
-//         console.log(chalk.bgRed('Could not connect with the server'))
+const forecast = (latitude, longitude, units, callback) => {
+    const url = `https://api.darksky.net/forecast/b570cea920d6af533ac24dbe957983e3/${latitude},${longitude}?units=${units}`
+    
+    request({url: url, json: true}, (error, response) => {
+        if (error) {
+            callback('Could not connect with the server!', undefined)
+        } else if (response.body.error) {
+            callback(response.body.error, undefined)
+        } else {
+            const currentWeather = response.body.currently
 
-//     } else if (response.body.error) {
-//         console.log(chalk.bgYellow(response.body.error))
-        
-//     } else {
-//         const currentWeather = response.body.currently
-//         //console.log(currentWeather)
-//         console.log(response.body.daily.data[0].summary)
-//         console.log(`It is currently ${currentWeather.temperature} degrees outside. There's a ${currentWeather.precipProbability}% chance of rain `)
-//     }
+            const data = {
+                summary: currentWeather.summary,
+                temperature: currentWeather.temperature
+            }
 
-// })
+            callback(undefined, data)
+        }
+    })
+}
 
 
 geocode('Xalapa', (error, data) => {
@@ -28,5 +32,13 @@ geocode('Xalapa', (error, data) => {
 
     } else {
         console.log(chalk.bgGreen(`Data: ${data.location}. ${data.latitude}, ${data.longitude}`))
+    }
+})
+
+forecast(19.54, -96.9275, 'si', (error, data) => {
+    if (error) {
+        console.log(chalk.bgRed(error))
+    } else {
+        console.log(chalk.bgGreen(`${data.summary}, current temperature: ${data.temperature}c`))
     }
 })
