@@ -15,7 +15,8 @@ const forecast = (latitude, longitude, units, callback) => {
 
             const data = {
                 summary: currentWeather.summary,
-                temperature: currentWeather.temperature
+                temperature: currentWeather.temperature,
+                rainChance: currentWeather.precipProbability
             }
 
             callback(undefined, data)

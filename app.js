@@ -18,7 +18,7 @@ if (process.argv[2]) {
     
             } else {
                 console.log(chalk.bold(geocodeData.location))
-                console.log(`${forecastData.summary}, current temperature ${forecastData.temperature}`)
+                console.log(`${forecastData.summary}, current temperature ${forecastData.temperature}, with a ${forecastData.rainChance}% of raining`)
             }
         })
     })
